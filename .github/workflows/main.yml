@@ -1,0 +1,299 @@
+name: Windows RDP
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  rdp:
+    runs-on: windows-latest
+    timeout-minutes: 360
+
+    env:
+      RUNTIME_MINUTES: 350
+
+    steps:
+      - name: Clean Desktop
+        run: |
+          $publicDesktop = [Environment]::GetFolderPath("CommonDesktopDirectory")
+          $userDesktop = "$env:USERPROFILE\Desktop"
+
+          $targets = @(
+            "Unity Hub.lnk",
+            "R 4.6.0.lnk",
+            "Firefox.lnk",
+            "Google Chrome.lnk",
+            "Claim Rewards Here.lnk"
+          )
+
+          foreach ($target in $targets) {
+            $publicPath = Join-Path $publicDesktop $target
+            $userPath = Join-Path $userDesktop $target
+
+            if (Test-Path $publicPath) {
+              Remove-Item $publicPath -Force -ErrorAction SilentlyContinue
+            }
+
+            if (Test-Path $userPath) {
+              Remove-Item $userPath -Force -ErrorAction SilentlyContinue
+            }
+          }
+
+      - name: Enable Remote Desktop
+        run: |
+          Write-Host "Enabling Remote Desktop..."
+
+          Set-ItemProperty `
+            -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" `
+            -Name "fDenyTSConnections" `
+            -Value 0
+
+          Set-ItemProperty `
+            -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" `
+            -Name "UserAuthentication" `
+            -Value 1
+
+          Enable-NetFirewallRule `
+            -DisplayGroup "Remote Desktop" `
+            -ErrorAction SilentlyContinue
+
+          Set-Service `
+            -Name "TermService" `
+            -StartupType Automatic
+
+          Restart-Service `
+            -Name "TermService" `
+            -Force
+
+          Start-Sleep -Seconds 3
+
+      - name: Test Remote Desktop
+        run: |
+          Write-Host "Testing Remote Desktop..."
+
+          $rdpSetting = Get-ItemProperty `
+            "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server"
+
+          if ($rdpSetting.fDenyTSConnections -ne 0) {
+            Write-Error "Remote Desktop is disabled."
+            exit 1
+          }
+
+          $service = Get-Service -Name TermService
+
+          if ($service.Status -ne "Running") {
+            Write-Error "Remote Desktop Service is not running."
+            exit 1
+          }
+
+          $listener = Get-NetTCPConnection `
+            -LocalPort 3389 `
+            -State Listen `
+            -ErrorAction SilentlyContinue
+
+          if (-not $listener) {
+            Write-Error "Nothing is listening on TCP port 3389."
+            exit 1
+          }
+
+          Write-Host "Remote Desktop is enabled."
+          Write-Host "TermService status: $($service.Status)"
+          Write-Host "TCP 3389 listener detected."
+
+      - name: Display RDP Information
+        run: |
+          Write-Host ""
+          Write-Host "=============================================="
+          Write-Host "              RDP INFORMATION"
+          Write-Host "=============================================="
+
+          Write-Host ""
+          Write-Host "Username:"
+          whoami
+
+          Write-Host ""
+          Write-Host "Computer Name:"
+          Write-Host $env:COMPUTERNAME
+
+          Write-Host ""
+          Write-Host "Local IPv4 Addresses:"
+
+          Get-NetIPAddress -AddressFamily IPv4 |
+            Where-Object {
+              $_.IPAddress -notlike "127.*" -and
+              $_.IPAddress -notlike "169.254.*"
+            } |
+            Select-Object InterfaceAlias,IPAddress |
+            Format-Table -AutoSize
+
+          Write-Host ""
+          Write-Host "TCP 3389:"
+
+          Get-NetTCPConnection `
+            -LocalPort 3389 `
+            -State Listen `
+            -ErrorAction SilentlyContinue |
+            Select-Object LocalAddress,LocalPort,State |
+            Format-Table -AutoSize
+
+          Write-Host ""
+          Write-Host "Remote Desktop Service:"
+
+          Get-Service TermService |
+            Select-Object Name,Status,StartType |
+            Format-Table -AutoSize
+
+          Write-Host ""
+          Write-Host "=============================================="
+
+      - name: Minimize Windows
+        run: |
+          try {
+            $shell = New-Object -ComObject Shell.Application
+            $shell.MinimizeAll()
+          }
+          catch {
+            Write-Host "Window minimization skipped."
+          }
+
+      - name: Optimize Resolution
+        run: |
+          try {
+            Set-DisplayResolution `
+              -Width 1600 `
+              -Height 1200 `
+              -Force `
+              -ErrorAction SilentlyContinue
+          }
+          catch {
+            Write-Host "Display resolution change skipped."
+          }
+
+      - name: Install Google Chrome
+        run: |
+          Write-Host "Downloading Google Chrome..."
+
+          $installer = "$env:TEMP\ChromeSetup.exe"
+          $url = "https://dl.google.com/chrome/install/latest/chrome_installer.exe"
+
+          Invoke-WebRequest `
+            -Uri $url `
+            -OutFile $installer
+
+          Write-Host "Installing Google Chrome..."
+
+          Start-Process `
+            -FilePath $installer `
+            -ArgumentList "/silent", "/install" `
+            -Wait
+
+          Remove-Item `
+            $installer `
+            -Force `
+            -ErrorAction SilentlyContinue
+
+          $chromePaths = @(
+            "$env:ProgramFiles\Google\Chrome\Application\chrome.exe",
+            "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe",
+            "$env:LOCALAPPDATA\Google\Chrome\Application\chrome.exe"
+          )
+
+          $chrome = $chromePaths |
+            Where-Object {
+              Test-Path $_
+            } |
+            Select-Object -First 1
+
+          if (-not $chrome) {
+            Write-Error "Google Chrome installation failed."
+            exit 1
+          }
+
+          Write-Host "Chrome installed:"
+          Write-Host $chrome
+
+      - name: Launch Google Chrome
+        run: |
+          $chromePaths = @(
+            "$env:ProgramFiles\Google\Chrome\Application\chrome.exe",
+            "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe",
+            "$env:LOCALAPPDATA\Google\Chrome\Application\chrome.exe"
+          )
+
+          $chrome = $chromePaths |
+            Where-Object {
+              Test-Path $_
+            } |
+            Select-Object -First 1
+
+          if (-not $chrome) {
+            Write-Error "Google Chrome executable was not found."
+            exit 1
+          }
+
+          Start-Process `
+            -FilePath $chrome `
+            -ArgumentList "--no-first-run"
+
+          Start-Sleep -Seconds 5
+
+          Write-Host "Google Chrome is running."
+
+      - name: Verify RDP Again
+        run: |
+          Write-Host "Performing final RDP verification..."
+
+          $service = Get-Service -Name TermService
+
+          $listener = Get-NetTCPConnection `
+            -LocalPort 3389 `
+            -State Listen `
+            -ErrorAction SilentlyContinue
+
+          $rdpSetting = Get-ItemProperty `
+            "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server"
+
+          Write-Host "RDP Enabled: $($rdpSetting.fDenyTSConnections -eq 0)"
+          Write-Host "Service: $($service.Status)"
+          Write-Host "Port 3389 Listening: $($null -ne $listener)"
+
+          if (
+            $rdpSetting.fDenyTSConnections -eq 0 -and
+            $service.Status -eq "Running" -and
+            $null -ne $listener
+          ) {
+            Write-Host "RDP verification successful."
+          }
+          else {
+            Write-Error "RDP verification failed."
+            exit 1
+          }
+
+      - name: Keep Runner Alive
+        run: |
+          $minutes = [int]"${{ env.RUNTIME_MINUTES }}"
+          $end = (Get-Date).AddMinutes($minutes)
+
+          Write-Host "Runner active until:"
+          Write-Host $end
+
+          while ((Get-Date) -lt $end) {
+            $now = Get-Date
+
+            Write-Host (
+              "Runner heartbeat: " +
+              $now.ToString("HH:mm:ss") +
+              " | Active until: " +
+              $end.ToString("HH:mm:ss")
+            )
+
+            Start-Sleep -Seconds 60
+          }
+
+          Write-Host "Runtime completed."
