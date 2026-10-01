@@ -164,6 +164,7 @@ jobs:
               -Height $height `
               -Force `
               -ErrorAction SilentlyContinue
+
           }
           else {
             Write-Host "Set-DisplayResolution is unavailable on this runner."
@@ -367,55 +368,160 @@ jobs:
           Write-Host " Scaling    : 100%"
           Write-Host " Mode       : Fixed"
           Write-Host " Chrome     : Installed"
-          Write-Host " Roblox     : Studio Installed"
+          Write-Host " Roblox     : Not Installed"
           Write-Host "=============================================="
 
       # ==========================================================
-      # ANYDESK ID
+      # ANYDESK CONNECTION INFORMATION
       # ==========================================================
 
       - name: Fetch and Display AnyDesk Connection Address
         run: |
-          $ad = "C:\Program Files (x86)\AnyDesk\AnyDesk.exe"
+          $adPaths = @(
+            "C:\Program Files (x86)\AnyDesk\AnyDesk.exe",
+            "C:\Program Files\AnyDesk\AnyDesk.exe"
+          )
 
-          if (-not (Test-Path $ad)) {
-            $ad = "C:\Program Files\AnyDesk\AnyDesk.exe"
-          }
+          $ad = $adPaths |
+            Where-Object { Test-Path $_ } |
+            Select-Object -First 1
 
-          if (-not (Test-Path $ad)) {
+          if (-not $ad) {
             Write-Error "AnyDesk.exe was not found."
             exit 1
           }
 
+          Write-Host "AnyDesk executable:"
+          Write-Host $ad
+
           $cleanId = ""
 
-          for ($i = 1; $i -le 10; $i++) {
+          # ------------------------------------------------------
+          # Method 1: system.conf
+          # ------------------------------------------------------
+
+          $configPaths = @(
+            "C:\ProgramData\AnyDesk\system.conf",
+            "$env:APPDATA\AnyDesk\system.conf"
+          )
+
+          foreach ($confPath in $configPaths) {
+
+            if (-not (Test-Path $confPath)) {
+              continue
+            }
+
+            Write-Host "Checking configuration:"
+            Write-Host $confPath
+
+            try {
+              $content = Get-Content `
+                -Path $confPath `
+                -Raw `
+                -ErrorAction Stop
+
+              if ($content -match 'ad\.anynet\.id\s*=\s*(\d+)') {
+                $cleanId = $Matches[1]
+                break
+              }
+
+              if ($content -match '(?:anynet|id)[^0-9]{0,20}(\d{6,})') {
+                $cleanId = $Matches[1]
+                break
+              }
+            }
+            catch {
+              Write-Host "Could not read configuration file."
+            }
+          }
+
+          # ------------------------------------------------------
+          # Method 2: AnyDesk CLI
+          # ------------------------------------------------------
+
+          if ([string]::IsNullOrWhiteSpace($cleanId)) {
+
+            Write-Host "Trying AnyDesk CLI..."
 
             try {
 
-              $output = & $ad --get-id 2>$null
+              $outputFile = "$env:TEMP\anydesk-id.txt"
 
-              if ($output) {
+              & $ad --get-id 2>&1 |
+                Out-File `
+                  -FilePath $outputFile `
+                  -Encoding utf8
 
-                $candidate =
-                  ($output | Select-Object -Last 1).ToString().Trim()
+              if (Test-Path $outputFile) {
 
-                if ($candidate -match '^\d{6,}$') {
-                  $cleanId = $candidate
-                  break
+                $cliOutput =
+                  Get-Content `
+                    -Path $outputFile `
+                    -Raw
+
+                Write-Host "AnyDesk CLI output:"
+                Write-Host $cliOutput
+
+                if ($cliOutput -match '\b(\d{6,})\b') {
+                  $cleanId = $Matches[1]
                 }
               }
 
+              Remove-Item `
+                $outputFile `
+                -Force `
+                -ErrorAction SilentlyContinue
             }
             catch {
-              Write-Host "AnyDesk ID check attempt $i failed."
+              Write-Host "AnyDesk CLI ID retrieval failed."
             }
-
-            Start-Sleep -Seconds 4
           }
 
+          # ------------------------------------------------------
+          # Retry
+          # ------------------------------------------------------
+
           if ([string]::IsNullOrWhiteSpace($cleanId)) {
-            Write-Error "Unable to retrieve AnyDesk ID."
+
+            Write-Host "ID not available yet. Waiting for AnyDesk..."
+
+            for ($i = 1; $i -le 10; $i++) {
+
+              Start-Sleep -Seconds 3
+
+              try {
+
+                $output = & $ad --get-id 2>&1
+
+                if ($output) {
+
+                  $text = ($output | Out-String)
+
+                  if ($text -match '\b(\d{6,})\b') {
+                    $cleanId = $Matches[1]
+                    break
+                  }
+                }
+              }
+              catch {
+                Write-Host "Retry $i failed."
+              }
+            }
+          }
+
+          # ------------------------------------------------------
+          # Final output
+          # ------------------------------------------------------
+
+          if ([string]::IsNullOrWhiteSpace($cleanId)) {
+
+            Write-Host ""
+            Write-Host "===================================================="
+            Write-Host "        ANYDESK ID COULD NOT BE DETECTED"
+            Write-Host "===================================================="
+            Write-Host "AnyDesk is installed, but the ID was not returned."
+            Write-Host "===================================================="
+
             exit 1
           }
 
@@ -423,14 +529,16 @@ jobs:
           Write-Host "===================================================="
           Write-Host "        ANYDESK WINDOWS MACHINE IS READY"
           Write-Host "===================================================="
+          Write-Host ""
           Write-Host " CONNECTION ID : $cleanId"
           Write-Host " PASSWORD      : $env:ANYDESK_PASS"
+          Write-Host ""
           Write-Host " DISPLAY       : 1280x720 / 16:9"
           Write-Host " CHROME        : INSTALLED"
-          Write-Host " ROBLOX STUDIO : INSTALLED"
+          Write-Host " ROBLOX STUDIO : NOT INSTALLED"
           Write-Host " RUNTIME       : 360 MINUTES"
-          Write-Host "===================================================="
           Write-Host ""
+          Write-Host "===================================================="
 
       # ==========================================================
       # KEEP ALIVE
