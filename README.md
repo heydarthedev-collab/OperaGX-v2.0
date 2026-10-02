@@ -1,101 +1,200 @@
 # PerisanCloud-v1.0
 
-Made by an Iranian Developer ❤️‍🔥
+🪟 Windows Cloud Environment • ⚡ GitHub Actions • 🔴 AnyDesk
 
-<img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white">
+<img src="https://img.icons8.com/color/96/windows-11.png" width="90">A lightweight automated Windows Cloud environment.
+
+Built with ❤️ in Iran 🇮🇷
+
+<br><img src="https://img.shields.io/badge/Windows-Cloud%20Environment-0078D4?style=for-the-badge&logo=windows&logoColor=white">
 <img src="https://img.shields.io/badge/GitHub-Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white">
-<img src="https://img.shields.io/badge/Remote-AnyDesk-EF443B?style=for-the-badge">
-<img src="https://img.shields.io/badge/Chrome-Browser-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white"></div>---
+<img src="https://img.shields.io/badge/PowerShell-Automation-5391FE?style=for-the-badge&logo=powershell&logoColor=white">
+<img src="https://img.shields.io/badge/AnyDesk-Remote%20Access-EF443B?style=for-the-badge"><br><br>
 
-🇮🇷 فارسی
+<img src="https://img.shields.io/github/stars/DkClan/PersianCloud?style=flat-square&logo=github">
+<img src="https://img.shields.io/github/forks/DkClan/PersianCloud?style=flat-square&logo=github">
+<img src="https://img.shields.io/github/license/DkClan/PersianCloud?style=flat-square"></div>---
 
-🖥️ یک Workflow آماده برای اجرای یک Windows Cloud PC با استفاده از GitHub Actions و دسترسی ریموت از طریق AnyDesk.
+<div align="center">🪟☁️ PersianCloud
 
-✨ امکانات
+Turn a GitHub Actions Windows Runner into a ready-to-use temporary cloud environment.
 
-- 🖥️ اجرای Windows Runner
-- 🔐 نصب و پیکربندی خودکار AnyDesk
-- 🆔 دریافت خودکار AnyDesk ID
-- 📱 تنظیم نمایشگر روی "1280×720"
-- 📐 نسبت تصویر "16:9"
-- 🌐 نصب و اجرای Google Chrome
-- 🧹 حذف Shortcutهای اضافی
-- ⚡ اجرای کاملاً خودکار با GitHub Actions
-- ⏱️ Session تا حداکثر 360 دقیقه
-- 📡 نمایش اطلاعات اتصال در Workflow Logs
+</div>---
 
-🚀 نحوه اجرا
+🇮🇷 Persian
 
-1. وارد تب Actions شوید.
-2. Workflow مربوط به PersianCloud را انتخاب کنید.
-3. روی Run workflow کلیک کنید.
-4. پس از اجرا، اطلاعات اتصال در Logs نمایش داده می‌شود.
+☁️ PersianCloud چیست؟
 
-🔐 امنیت و اطلاعات ورود
+PersianCloud یک پروژه اتوماسیون مبتنی بر GitHub Actions است که یک محیط موقت Windows را به‌صورت خودکار آماده و پیکربندی می‌کند.
 
-«⚠️ هیچ‌وقت رمز عبور، AnyDesk ID یا اطلاعات حساس را داخل Repository عمومی، README یا کد قرار ندهید.»
+از آماده‌سازی محیط و تنظیم نمایشگر گرفته تا نصب Chrome و راه‌اندازی دسترسی ریموت، تمام مراحل توسط Workflow انجام می‌شوند. ⚡
 
-🔒 برای پروژه‌های واقعی از GitHub Secrets و Environment Variables امن استفاده کنید.
+🎯 هدف پروژه
 
-🚨 اطلاعات اتصال موجود در Workflow Logs را فقط با افراد مجاز به اشتراک بگذارید.
+ساخت یک محیط ساده، سریع و قابل‌استفاده برای:
+
+- 🧪 تست و آزمایش
+- 💻 توسعه موقت
+- 🛠️ بررسی پروژه‌ها
+- 🌐 استفاده از ابزارهای Windows
+- 🔬 محیط‌های آزمایشی کوتاه‌مدت
+
+---
+
+✨ Features
+
+🧩 Feature| 📌 Description
+🪟 Windows Runner| اجرای محیط Windows
+⚡ GitHub Actions| اجرای کاملاً خودکار
+🔴 AnyDesk| دسترسی ریموت
+🆔 AnyDesk ID| تشخیص خودکار شناسه اتصال
+🌐 Google Chrome| نصب و اجرای خودکار
+📱 Mobile Display| تنظیم "1280×720"
+📐 16:9| نسبت تصویر ثابت
+🧹 Cleanup| حذف Shortcutهای اضافی
+📡 Connection Info| نمایش اطلاعات اتصال
+⏱️ Keep Alive| نگه‌داری محیط تا 360 دقیقه
+
+---
+
+🚀 Quick Start
+
+1️⃣ Open GitHub Actions
+
+به تب Actions ریپازیتوری بروید.
+
+2️⃣ Select PersianCloud
+
+Workflow پروژه را انتخاب کنید.
+
+3️⃣ Run
+
+روی Run workflow کلیک کنید.
+
+4️⃣ Wait
+
+اجازه دهید Workflow مراحل Setup را کامل کند. ⚙️
+
+5️⃣ Connect
+
+اطلاعات اتصال در خروجی Workflow نمایش داده می‌شود.
 
 ---
 
 🇬🇧 English
 
-🖥️ A ready-to-use Windows Cloud PC workflow powered by GitHub Actions, with automatic AnyDesk installation and remote-access configuration.
+☁️ About PersianCloud
 
-✨ Features
+PersianCloud is an automated Windows Cloud environment powered by GitHub Actions.
 
-- 🖥️ Windows Runner
-- 🔐 Automatic AnyDesk installation & configuration
-- 🆔 Automatic AnyDesk ID detection
-- 📱 Fixed "1280×720" display
-- 📐 "16:9" aspect ratio
-- 🌐 Automatic Google Chrome installation
-- 🧹 Desktop shortcut cleanup
-- ⚡ Fully automated GitHub Actions workflow
-- ⏱️ Up to 360 minutes runtime
-- 📡 Connection information in workflow logs
+The workflow automatically prepares a temporary Windows environment, configures the display, installs Google Chrome, sets up AnyDesk for remote access, and keeps the environment alive for a limited period.
 
-🚀 How to Run
+🎯 Designed for
 
-1. Open the Actions tab.
-2. Select the PersianCloud workflow.
-3. Click Run workflow.
-4. Check the workflow logs for the connection information.
-
-🔐 Security & Credentials
-
-«⚠️ Never expose passwords, AnyDesk credentials, connection IDs, tokens, or other sensitive information in a public repository.»
-
-🔒 For production or public repositories, use GitHub Secrets and secure environment variables.
-
-🚨 Do not share connection information from workflow logs with unauthorized users.
+- 🧪 Testing
+- 💻 Temporary development
+- 🛠️ Project experiments
+- 🌐 Windows utilities
+- 🔬 Short-lived development environments
 
 ---
 
-🖼️ Preview
+⚡ Features
 
-<div align="center"><img src="https://github.githubassets.com/images/modules/site/home-campaign/desktop.webp" width="80%" alt="GitHub Actions Preview"><br><br>
+🪟 Windows Environment
 
-<img src="https://github.githubassets.com/images/modules/site/home-campaign/hero.webp" width="80%" alt="Developer Workflow"></div>---
+Automated Windows runner initialization.
 
-🛠️ Tech Stack
+🔴 Remote Access
 
-Technology| Usage
-🐙 GitHub Actions| Workflow Automation
-🪟 Windows| Cloud Runner
-🔴 AnyDesk| Remote Access
-🌐 Google Chrome| Web Browser
-⚡ PowerShell| Automation & Configuration
+Automatic AnyDesk installation and configuration.
+
+🌐 Chrome Ready
+
+Google Chrome is automatically installed and launched.
+
+📱 Mobile Friendly
+
+The environment targets:
+
+Resolution : 1280 × 720
+Aspect     : 16:9
+Scaling    : 100%
+
+⚙️ Fully Automated
+
+No manual setup is required during the workflow initialization.
 
 ---
 
-🇮🇷 Made with ❤️
+🔐 Security
 
-<div align="center">Made in Iran 🇮🇷 by an Iranian Developer 👨‍💻
+<div align="center">🚨 KEEP YOUR CREDENTIALS PRIVATE
 
-⭐ If you find this project useful, consider giving it a Star!
+</div>Never commit sensitive credentials to GitHub.
 
-</div>«⚠️ Disclaimer: This project is intended for educational and authorized testing purposes. Only use it on systems and environments you are authorized to access.»
+Do NOT expose:
+
+- 🔑 Passwords
+- 🆔 Remote-access credentials
+- 🎫 API Tokens
+- 🔐 GitHub Tokens
+- 📡 Connection information
+- 🗝️ Private keys
+
+For sensitive values, use:
+
+GitHub Secrets → Repository → Settings → Secrets and variables → Actions
+
+«💡 If a credential is accidentally exposed, revoke or rotate it immediately.»
+
+---
+
+🧰 Tech Stack
+
+<div align="center"><img src="https://img.icons8.com/color/64/windows-11.png">
+<img src="https://img.icons8.com/color/64/github.png">
+<img src="https://img.icons8.com/color/64/powershell.png">
+<img src="https://img.icons8.com/color/64/google-chrome.png"><br>Windows • GitHub Actions • PowerShell • AnyDesk • Google Chrome
+
+</div>---
+
+📸 Preview
+
+<div align="center"><img src="https://img.icons8.com/color/120/windows-11.png">🪟 Windows Cloud Environment
+
+"1280 × 720" • "16:9" • "Remote Ready"
+
+</div>---
+
+🇮🇷 Made in Iran
+
+<div align="center">❤️ Built by an Iranian Developer
+
+🇮🇷 Made in Iran • Built for Developers
+
+PersianCloud is an independent developer project created with ❤️ in Iran.
+
+<br>⭐ If you find this project useful, consider giving it a Star!
+
+</div>---
+
+📜 Disclaimer
+
+«⚠️ PersianCloud is intended for educational, development, testing, and authorized use only.
+
+Use the project only on systems and environments that you are authorized to access.
+
+The project author is not responsible for unauthorized or improper use.»
+
+---
+
+<div align="center">☁️ PersianCloud
+
+🪟 Build • ⚡ Automate • 🌐 Connect
+
+Made with ❤️ in 🇮🇷 Iran
+
+<br>⭐ Star the repository if you like it!
+
+</div>
