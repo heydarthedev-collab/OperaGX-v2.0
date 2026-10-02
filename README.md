@@ -13,58 +13,58 @@ Automate • Connect • Build ⚡
 <img src="https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white">
 <img src="https://img.shields.io/badge/AnyDesk-EF443B?style=for-the-badge&logo=anydesk&logoColor=white"></div>---
 
-🇮🇷 Persian
+---
+<div dir="rtl">
 
-☁️ PersianCloud چیه؟
+## 🇮🇷 درباره PersianCloud
 
-PersianCloud یک پروژه‌ی اتوماسیون برای ساخت و آماده‌سازی یک محیط موقت Windows با استفاده از GitHub Actions است.
+☁️ **PersianCloud** یه پروژه‌ی اتوماسیونیه که با استفاده از **GitHub Actions** یک محیط موقت ویندوز رو به‌صورت خودکار آماده می‌کنه.
 
-همه‌چیز خودکار انجام می‌شود؛ از آماده‌سازی محیط و تنظیم نمایشگر گرفته تا نصب Chrome و راه‌اندازی دسترسی ریموت. ⚡
+از آماده‌سازی Windows و تنظیم صفحه گرفته تا نصب Chrome و آماده‌سازی دسترسی ریموت، همه‌چیز توسط Workflow انجام میشه. ⚡
 
-✨ امکانات
+### ✨ چی داخلشه؟
 
-🪟 Windows Environment
-اجرای محیط Windows روی GitHub Actions
+🪟 **محیط ویندوز** — آماده‌سازی خودکار Windows Runner
 
-⚡ Fully Automated
-راه‌اندازی و تنظیمات به‌صورت خودکار
+⚡ **اتوماسیون کامل** — بدون نیاز به انجام مراحل Setup به‌صورت دستی
 
-🔴 AnyDesk Remote Access
-آماده‌سازی دسترسی ریموت
+🔴 **دسترسی ریموت** — آماده‌سازی AnyDesk برای اتصال از راه دور
 
-🌐 Google Chrome
-نصب و اجرای خودکار Chrome
+🌐 **Google Chrome** — نصب و اجرای خودکار مرورگر
 
-📱 Mobile Friendly
-تنظیم نمایشگر روی "1280×720" با نسبت "16:9"
+📱 **نمایشگر مناسب موبایل** — تنظیم روی `1280×720` و نسبت `16:9`
 
-🧹 Clean Environment
-حذف Shortcutهای غیرضروری
+🧹 **محیط تمیز** — حذف Shortcutهای اضافی و غیرضروری
 
-⏱️ Up to 360 Minutes
-نگه‌داری محیط برای حداکثر ۳۶۰ دقیقه
+⏱️ **اجرای موقت** — نگه‌داری محیط تا حداکثر ۳۶۰ دقیقه
 
 ---
 
-🚀 Quick Start
+### 🚀 چطور اجراش کنم؟
 
-GitHub Actions
-      ↓
-Windows Runner
-      ↓
-Environment Setup
-      ↓
-AnyDesk + Chrome
-      ↓
-Remote Access
-      ↓
-☁️ PersianCloud
+1. وارد بخش **Actions** ریپازیتوری شو.
+2. Workflow مربوط به PersianCloud رو انتخاب کن.
+3. روی **Run workflow** بزن.
+4. چند لحظه صبر کن تا محیط آماده بشه.
+5. اطلاعات اتصال رو از بخش **Logs** بررسی کن.
 
-1. وارد تب Actions شوید.
-2. Workflow را انتخاب کنید.
-3. روی Run workflow بزنید.
-4. صبر کنید Setup کامل شود.
-5. اطلاعات اتصال را در Logs بررسی کنید.
+---
+
+### 🔐 امنیت خیلی مهمه!
+
+⚠️ **رمز عبور و اطلاعات اتصال رو عمومی نکن.**
+
+هیچ‌وقت این موارد رو داخل Repository عمومی قرار نده:
+
+🔑 رمز عبور  
+🆔 اطلاعات اتصال  
+🎫 API Token  
+🔐 GitHub Token  
+🗝️ Private Key  
+
+برای اطلاعات حساس از **GitHub Secrets** استفاده کن.
+
+</div>
 
 ---
 
