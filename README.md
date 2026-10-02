@@ -67,48 +67,82 @@ Automate • Connect • Build ⚡
 </div>
 
 ---
+🇬🇧 About PersianCloud
 
-🇬🇧 English
+☁️ PersianCloud is an automated project built with GitHub Actions that prepares a temporary Windows environment with minimal manual setup.
 
-☁️ About
+From configuring the Windows environment and display settings to installing Chrome and preparing remote access, the workflow handles the setup automatically. ⚡
 
-PersianCloud is an automated temporary Windows Cloud Environment powered by GitHub Actions.
+✨ What's Included?
 
-It automatically prepares the Windows environment, configures the display, installs Google Chrome, and sets up remote access through AnyDesk.
+🪟 Windows Environment
+Automatically prepares the Windows runner.
 
-⚡ Highlights
+⚡ Fully Automated Setup
+Handles the main configuration steps through GitHub Actions.
 
-- 🪟 Automated Windows environment
-- ⚙️ GitHub Actions workflow
-- 🔴 AnyDesk remote access
-- 🌐 Google Chrome
-- 📱 "1280×720" / "16:9"
-- 🧹 Automatic environment cleanup
-- ⏱️ Up to 360 minutes runtime
+🔴 Remote Access
+Automatically installs and configures AnyDesk for remote connectivity.
 
----
-
-🔐 Security
-
-«🚨 Keep your credentials private.»
-
-Never publish passwords, tokens, remote-access credentials, private keys, or other sensitive information in a public repository.
-
-🔒 Use GitHub Secrets for sensitive values.
-
-⚠️ If credentials are accidentally exposed, revoke or rotate them immediately.
-
----
-
-🧰 Built With
-
-<div align="center">🪟 Windows
-⚡ GitHub Actions
-💙 PowerShell
-🔴 AnyDesk
 🌐 Google Chrome
+Installs and launches Chrome automatically.
 
-</div>---
+📱 Mobile-Friendly Display
+Configures the environment for "1280×720" with a "16:9" aspect ratio.
+
+🧹 Clean Environment
+Removes unnecessary desktop shortcuts and keeps the workspace clean.
+
+⏱️ Temporary Runtime
+Keeps the environment available for up to 360 minutes.
+
+---
+
+🚀 Getting Started
+
+1. Open the repository's Actions tab.
+2. Select the PersianCloud workflow.
+3. Click Run workflow.
+4. Wait for the automated setup to finish.
+5. Check the workflow logs for the available connection information.
+
+---
+
+🔐 Security First
+
+«⚠️ Keep your credentials private.»
+
+Never expose sensitive information in a public repository, including:
+
+🔑 Passwords
+🆔 Remote-access credentials
+🎫 API tokens
+🔐 GitHub tokens
+🗝️ Private keys
+
+For sensitive values, use GitHub Secrets or secure environment variables.
+
+If a credential is ever exposed accidentally, revoke or rotate it immediately.
+
+---
+
+🛠️ Built With
+
+"🪟 Windows" • "⚡ GitHub Actions" • "💙 PowerShell" • "🔴 AnyDesk" • "🌐 Google Chrome"
+
+---
+
+<div align="center">🇮🇷 Made in Iran
+
+Built with ❤️ by an Iranian Developer
+
+PersianCloud — Simple. Automated. Remote. ☁️
+
+⭐ If you find the project useful, consider giving it a Star.
+
+</div>
+
+---
 
 <div align="center">🇮🇷 Made in Iran
 
